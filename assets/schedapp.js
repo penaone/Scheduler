@@ -49,7 +49,7 @@ function prepareTimeBlocks(){
 
 function runSchedule() {
     toDoItems = localStorage.getItem("todos");
-    toDoItems = JSON.parse.apply(toDoItems);
+    toDoItems = JSON.parse(toDoItems);
     for (var x = 0; x<toDoItems.length; x++){
         var itemTime = toDoItems[x].time;
         var itemText = toDoItems[x].text;
@@ -60,9 +60,9 @@ function runSchedule() {
 }
 
 function saveHandler() {
-    if (event.target.matches("button")) {
-        var timeToUpdate = event.target.parentElement.getAttribute("time-sig");
-        var itemToAdd = (($(event.target).parent()).children("textarea")).val();
+        var $thisBlock = $(this).parent();
+        var timeToUpdate = $(this).parent().attr("time-sig");
+        var itemToAdd = (($(this).parent()).children("textarea")).val();
 
         for (var i = 0; i < toDoItems.length; i++) {
             if (toDoItems[i].time == timeToUpdate) {
@@ -75,10 +75,12 @@ function saveHandler() {
         console.log(toDoItems);
 
     }
-}
-$().ready(function () {
-    beginTodos();
-    runSchedule();
-    $scheduleArea.click(saveHandler);
+$(document).ready(function(){
+    prepareTimeBlocks();
+    if(!localStorage.getItem("todos")){
+        beginSchedule();
+        $scheduleArea.on("click", "button", saveHandler);
+    
 
+    }
 });
