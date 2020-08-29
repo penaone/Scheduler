@@ -7,6 +7,7 @@ var toDoItems = [];
 var todaysDate = moment().format("dddd, MMMM Do");
 var currentHour = moment().format("H");
 
+
 function beginSchedule(){
     $timeBlocks.each(function(){
         var $thisBlock = $(this);
@@ -21,6 +22,7 @@ function beginSchedule(){
 
 //save array to local storage
 localStorage.setItem("todos", JSON.stringify(toDoItems));
+console.log(toDoItems);
 
 }
 function prepareTimeBlocks(){
@@ -48,6 +50,7 @@ function prepareTimeBlocks(){
 
 
 function runSchedule() {
+
     toDoItems = localStorage.getItem("todos");
     toDoItems = JSON.parse(toDoItems);
     for (var x = 0; x < toDoItems.length; x++){
@@ -56,7 +59,7 @@ function runSchedule() {
         
         $("[time-sig=" + itemTime + "]").children("textarea").val(itemText);
     }
-    console.log(toDoItems);
+    
 }
 
 function saveHandler() {
@@ -70,7 +73,7 @@ function saveHandler() {
             }
         }
         //send to local storage
-        localStorage.setItem("todos" , JSON.stringify(toDoItems));
+        localStorage.setItem("todos", JSON.stringify(toDoItems));
         runSchedule();
         console.log(toDoItems);
 
