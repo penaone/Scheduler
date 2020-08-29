@@ -1,19 +1,19 @@
 var $currentDay = $("#currentDay");
-var $timeBlocks = $(".time-bolck");
+var $timeBlocks = $(".time-block");
 var $scheduleArea = $(".schedule");
 var toDoItems = [];
 // format date and time properties
 
-var todaysDate = moment().format("ddd, MMM Do");
+var todaysDate = moment().format("dddd, MMMM Do");
 var currentHour = moment().format("H");
 
 function beginSchedule(){
     $timeBlocks.each(function(){
         var $thisBlock = $(this);
-        var thisBlkTime = parseInt($thisBlock.attr("time-sig"));
+        var thisBlockTime = parseInt($thisBlock.attr("time-sig"));
 
         var todoObj = {
-            time: thisBlkTime,
+            time: thisBlockTime,
             text: "",
         }
         toDoItems.push(todoObj);
@@ -26,20 +26,20 @@ localStorage.setItem("todos", JSON.stringify(toDoItems));
 function prepareTimeBlocks(){
     $timeBlocks.each(function(){
         var $thisBlock = $(this);
-        var thisBlkTime = parseInt($thisBlock.attr("time-sig"));
+        var thisBlockTime = parseInt($thisBlock.attr("time-sig"));
   
 
 // show current date
 
-    if (thisBlkTime == currentHour) {
+    if (thisBlockTime == currentHour) {
 
         $thisBlock.addClass("present").removeClass("past future");
     }
 
-    if (thisBlkTime < curentHour) {
+    if (thisBlockTime < currentHour) {
         $thisBlock.addClass("past").removeClass("present future");
     }
-    if (thisBlkTime > currentHour) {
+    if (thisBlockTime > currentHour) {
         $thisBlock.addClass("future").removeClass("past present");
     }
 
@@ -50,7 +50,7 @@ function prepareTimeBlocks(){
 function runSchedule() {
     toDoItems = localStorage.getItem("todos");
     toDoItems = JSON.parse(toDoItems);
-    for (var x = 0; x<toDoItems.length; x++){
+    for (var x = 0; x < toDoItems.length; x++){
         var itemTime = toDoItems[x].time;
         var itemText = toDoItems[x].text;
         
@@ -79,6 +79,9 @@ $(document).ready(function(){
     prepareTimeBlocks();
     if(!localStorage.getItem("todos")){
         beginSchedule();
+
+        // display today's date
+        $currentDay.text(todaysDate);
         $scheduleArea.on("click", "button", saveHandler);
     
 
